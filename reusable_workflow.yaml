@@ -1,0 +1,29 @@
+name: Reusable Workflow
+on:
+  workflow_call:
+    inputs:
+      name:
+        description: "Name of the person and description"
+        required: true
+        type: string
+    secrets:
+      access-token:
+        description: "Access token to access the repo"
+        required: true
+jobs:
+    reusable-job:
+      runs-on: ubuntu-latest
+      steps:
+        - name: checkout the repo
+          uses: actions/checkout@v4
+        - name: Display the files
+          run: ls -a
+    reusable-context-job:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Displaying reusable workflow context
+          run: echo '${{ toJson(github)}}'
+        - name: displaying input name
+          run: echo "the input name is ${{inputs.name}}"
+        - name: displaying secret token
+          run: echo "the secret token is ${{secrets.access-token}}"
